@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2eb;
+    --cream: #ede9df;
+    --accent: #c84b2f;
+    --accent-light: #f0d6cf;
+    --muted: #7a7670;
+    --border: #d4cfc5;
+    --radius: 4px;
+  }
+
+  body {
+    background-color: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.03) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, rgba(0,0,0,0.015) 28px);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    padding: 40px 20px;
+  }
+
+  .page-wrap {
+    width: 100%;
+    max-width: 680px;
+    animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Header */
+  .form-header {
+    margin-bottom: 40px;
+  }
+
+  .form-header .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .form-header .eyebrow::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 40px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .form-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .form-header p {
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 420px;
+  }
+
+  /* Card */
+  .form-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 44px 48px;
+    box-shadow: 0 2px 0 var(--border), 0 8px 40px rgba(15,14,12,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #e07a5f, #f2cc8f);
+  }
+
+  /* Row layout */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* Field */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .field:nth-child(1) { animation-delay: 0.05s; }
+  .field:nth-child(2) { animation-delay: 0.10s; }
+  .field:nth-child(3) { animation-delay: 0.15s; }
+  .field:nth-child(4) { animation-delay: 0.20s; }
+  .field:nth-child(5) { animation-delay: 0.25s; }
+  .field:nth-child(6) { animation-delay: 0.30s; }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  label .req {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+
+  input, select, textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #b0aa9f;
+    font-weight: 300;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+
+  input:hover:not(:focus), select:hover:not(:focus), textarea:hover:not(:focus) {
+    border-color: #b0aa9f;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a7670' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .radio-option {
+    position: relative;
+  }
+
+  .radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .radio-option label {
+    display: block;
+    padding: 9px 18px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    cursor: pointer;
+    background: var(--paper);
+    color: var(--muted);
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .radio-option input[type="radio"]:checked + label {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  .radio-option label:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* Checkbox */
+  .checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .checkbox-field input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    padding: 0;
+    margin-top: 2px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    background: var(--paper);
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+
+  .checkbox-field span {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .checkbox-field span a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0 28px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Submit */
+  .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 4px;
+  }
+
+  .btn-submit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--ink);
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px 36px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-submit:hover::after {
+    transform: translateX(0);
+  }
+
+  .btn-submit span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-submit:hover {
+    box-shadow: 0 4px 20px rgba(200,75,47,0.3);
+    transform: translateY(-1px);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  .form-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* Success message */
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+  }
+
+  .success-msg .icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #e8f5e9;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 24px;
+  }
+
+  .success-msg h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .success-msg p {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  @media (max-width: 560px) {
+    .form-card { padding: 32px 24px; }
+    .row { grid-template-columns: 1fr; gap: 0; }
+    .submit-row { flex-direction: column; align-items: stretch; }
+    .btn-submit { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="form-header">
+    <div class="eyebrow">Get in touch</div>
+    <h1>Let's start a<br>conversation.</h1>
+    <p>Fill out the form below and we'll get back to you within one business day.</p>
+  </div>
+
+  <div class="form-card" id="formCard">
+    <div id="formContent">
+
+      <div class="section-label">Personal info</div>
+
+      <div class="row">
+        <div class="field">
+          <label>First name <span class="req">*</span></label>
+          <input type="text" placeholder="John" required />
+        </div>
+        <div class="field">
+          <label>Last name <span class="req">*</span></label>
+          <input type="text" placeholder="Doe" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email address <span class="req">*</span></label>
+        <input type="email" placeholder="john@example.com" required />
+      </div>
+
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" placeholder="+1 (555) 000-0000" />
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Your enquiry</div>
+
+      <div class="field">
+        <label>Subject <span class="req">*</span></label>
+        <select required>
+          <option value="" disabled selected>Select a topic...</option>
+          <option>General Enquiry</option>
+          <option>Project Collaboration</option>
+          <option>Support Request</option>
+          <option>Partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>How did you hear about us?</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" name="source" id="s1" value="search" />
+            <label for="s1">Search</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="source" id="s2" value="social" />
+            <label for="s2">Social media</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="source" id="s3" value="referral" />
+            <label for="s3">Referral</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="source" id="s4" value="other" />
+            <label for="s4">Other</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Message <span class="req">*</span></label>
+        <textarea placeholder="Tell us about your project or question..." required></textarea>
+      </div>
+
+      <div class="checkbox-field">
+        <input type="checkbox" id="agree" required />
+        <span>I agree to the <a href="#">Privacy Policy</a> and consent to being contacted regarding my enquiry.</span>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn-submit" onclick="handleSubmit(event)">
+          <span>Send message →</span>
+        </button>
+        <p class="form-note">We respond within<br>1 business day.</p>
+      </div>
+
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <div class="icon">✓</div>
+      <h2>Message sent!</h2>
+      <p>Thank you for reaching out. We'll be in touch shortly.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('formContent').style.display = 'none';
+    const msg = document.getElementById('successMsg');
+    msg.style.display = 'block';
+    msg.style.animation = 'rise 0.5s cubic-bezier(0.16,1,0.3,1) both';
+  }
+</script>
+</body>
+</html>
